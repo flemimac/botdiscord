@@ -2,8 +2,10 @@ import discord
 from discord.ext import commands
 import asyncio
 import datetime
+import random
+from random import randint
 
-token = "ODc5NDIzMDU0OTE5MzY4NzA0.YSPgiw.blvrUzQ6owDvbv3h2TgENYTuz0Y" # token bot
+token = "***" # token bot
 
 bot = commands.Bot(command_prefix = ".")
 bot.remove_command('help')
@@ -19,8 +21,8 @@ async def hi (ctx):
 
 @bot.command(pass_context=True) #оформление текста
 async def help(ctx, *args):
-	retStr = ("""```fix\nПриветствие от бота - .hi\nИнформация для КУБ - .information\nАдмин команды - .admin\nАнекдот про улитку - .улитка\nАнекдот про черепаху - .черепаха\n```""")
-	embed = discord.Embed(title = "Помощь по боту", colour=discord.Colour.orange())
+	retStr = ("""```fix\nПриветствие от бота - .hi\nИнформация для КУБ - .information\nАдмин команды - .admin\nАнекдот про улитку - .улитка\nАнекдот про черепаху - .черепаха\nКинуть монетку - .монета\nКинуть ролл - .roll\nУзнать кто я - .кто_я\n```""")
+	embed = discord.Embed(title = "Помощь по боту")
 	embed.add_field(name="Снизу представлены команды", value=retStr)
 	await ctx.send(embed=embed)
 
@@ -30,9 +32,11 @@ async def help(ctx, *args):
 # //////////////////// оформление /////////////////
 @bot.command(pass_context=True)
 async def admin(ctx, *args):
-	retStr = ("""```fix\nВыдача кика игроку - .kick ник причина\nВыдача бана игроку - .ban ник причина\nВыдача мута игроку - .mute ник (мут на 30 минут)\nСнять мут с игрока - .unmute ник\nЧистка чата - .clear кол-во строк```""")
-	embed = discord.Embed(title = "Помощь по боту для администрации", colour=discord.Colour.orange())
-	embed.add_field(name="Admin",value=retStr)
+	retStr = ("""```fix\nВыдача кика игроку - .kick ник\nВыдача бана игроку - .ban ник\nВыдача мута игроку - .mute ник (мут на 30 минут)\nСнять мут с игрока - .unmute ник\nЧистка чата - .clear кол-во строк```""")
+	retStr2 = ("""```fix\nВыдача кика игроку - .kick ник \nВыдача мута игроку - .mute ник (мут на 30 минут)\nСнять мут с игрока - .unmute ник\nЧистка чата - .clear кол-во строк\n```""")
+	embed = discord.Embed(title = "Помощь по боту для администрации")
+	embed.add_field(name="Команды для Адмирнистрации",value=retStr)
+	embed.add_field(name="Команды для Модерации",value=retStr2)
 	await ctx.send(embed=embed)
 
 @bot.command(pass_context =True)
@@ -128,5 +132,20 @@ async def черепаха (ctx):
 	await ctx.send('```Заходит черепаха в бар с убитым видом просит стакан воды. Получая, уходит. На следующие сутки снова в бар заходит черепаха и, получив стакан воды, удаляется с всё тем же убитым видом. Такая история повторяется почти неделю и наконец-то бармен не выдерживает испрашивает:\n — Чё такая убитая и зачем тебе, стакан воды?\n На что черепаха рыдая отвечает:\n — Да некогда объяснять, у меня там дом горит…\n```')
 
 #////////////////// TEST ///////////////////
+
+@bot.command(pass_context =True)
+async def монета (ctx):
+	embed = discord.Embed(title= f"Вам выпало - {random.choice(['орёл', 'решка'])}")
+	await ctx.send(embed=embed)
+
+@bot.command()
+async def roll(ctx):
+    embed = discord.Embed(title= f"Рандомное число - {randint(0,100)}")
+    await ctx.send(embed=embed)
+
+@bot.command(pass_context =True)
+async def кто_я (ctx):
+	embed = discord.Embed(title= f"Вы скорее всего - {random.choice(['вредная картошка', 'спелый огурец', 'вице-адмирал', 'король', 'шевелящийся герой нашего времени', 'дурак', 'соблазнительная марихуана'])}")
+	await ctx.send(embed=embed)
 
 bot.run(token)
